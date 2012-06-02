@@ -1,0 +1,210 @@
+%define oname		guile
+
+%define major		17
+%define libname		%mklibname %{oname} %{major}
+%define develname	%mklibname %{oname}1.8 -d
+
+%define mver 1.8
+%define _requires_exceptions devel(libguile)
+%define _exclude_files_from_autoreq lib%{oname}-srfi-.\\+\\.so$
+
+Name:	guile%{mver}
+Version:	1.8.8
+Release:	%mkrel 11
+Summary:	GNU implementation of Scheme for application extensibility
+License:	LGPLv2+
+Group:	Development/Other
+URL:	http://www.gnu.org/software/guile/guile.html
+Source0:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
+Source1:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
+Patch0:		guile-1.8.3-64bit-fixes.patch
+Patch1:		guile-1.6.4-amd64.patch
+Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
+Patch3:		guile-1.8.7-testsuite.patch
+Patch5:		guile-1.8.7-fix-doc.patch
+Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
+Requires(post):	%{libname} = %{version}-%{release}
+Requires(post):	rpm-helper
+Requires(preun): rpm-helper
+BuildRequires:	chrpath
+BuildRequires:	libgmp-devel
+BuildRequires:	libltdl-devel
+BuildRequires:	libncurses-devel
+BuildRequires:	libreadline-devel
+BuildRequires:	gettext-devel
+# for srfi-19.test
+BuildRequires:	timezone
+Obsoletes:	%{oname} < 1.8.8-7
+Conflicts:	%{oname} >= 2.0.3
+
+%package -n %{libname}
+Summary:	Libraries for Guile %{version}
+Group:		System/Libraries
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%package -n %{develname}
+Summary:	Development headers and static library for libguile
+Group:	Development/C
+Requires:	%{libname} = %{version}-%{release}
+Provides:	lib%{name}-devel = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
+Obsoletes:	%{_lib}%{oname}-devel < 1.8.8-7
+Obsoletes:	%{_lib}%{oname}17-devel
+Conflicts:	%{_lib}%{oname}-devel >= 2.0.3
+Requires:	libgmp-devel
+Requires:	libtool-devel
+
+%package runtime
+Summary:	Guile runtime library
+Group:		System/Libraries
+Conflicts:	%{name} < 1.8.8-10
+
+%description
+GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
+library implementation of the Scheme programming language, written in
+C. GUILE provides a machine-independent execution platform that can
+be linked in as a library during the building of extensible programs.
+
+Install the guile package if you'd like to add extensibility to
+programs that you are developing. You'll also need to install the
+guile-devel package.
+
+%description -n %{libname}
+This package contains Guile shared object libraries. Guile is the GNU
+Ubiquitous Intelligent Language for Extension.
+
+%description -n %{develname}
+This package contains the development headers and the static library
+for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
+`guile-config' utilities, and static `libguile' library for Guile, the
+GNU Ubiquitous Intelligent Language for Extension
+
+%description runtime
+This package contains Scheme runtime for GUILE, including ice-9
+Scheme module.
+
+%prep
+%setup -q -n %{oname}-%{version}
+%patch0 -p1 -b .64bit-fixes
+%patch1 -p1 -b .amd64
+%patch2 -p0 -b .pkgconfig
+%patch3 -p1 -b .testsuite
+
+%patch5 -p1 -b .doc
+%patch6 -p1 -b .robust
+
+%build
+autoreconf -vfi
+%configure2_5x \
+    --disable-error-on-warning \
+    --disable-rpath \
+    --enable-dynamic-linking \
+    --with-threads \
+    --disable-static
+
+%make
+
+%check
+%ifarch ia64
+# FAIL: r4rs.test: (6 9): (#<procedure leaf-eq? (x y)> (a (b (c))) ((a) b c))
+%{__make} check -k || :
+%else
+# all tests must pass
+%{__make} check
+%endif
+
+%install
+%{__rm} -rf %{buildroot}
+%makeinstall_std
+
+%{__mkdir_p} %{buildroot}%{_datadir}/%{oname}/site
+
+%multiarch_includes %{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
+
+%{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{oname},%{_libdir}/*.so.*.*.*}
+
+# create ghost file for packaging
+touch %{buildroot}%{_datadir}/%{oname}/%{mver}/slib %{buildroot}%{_datadir}/%{oname}/%{mver}/slibcat
+
+rm -f ${RPM_BUILD_ROOT}%{_libdir}/libguile*.la
+
+%clean
+%{__rm} -rf %{buildroot}
+
+%post
+%_install_info %{oname}-tut.info
+%_install_info %{oname}.info
+%_install_info r5rs.info
+%_install_info goops.info
+
+%preun
+%_remove_install_info %{oname}-tut.info
+%_remove_install_info %{oname}.info
+%_remove_install_info r5rs.info
+%_remove_install_info goops.info
+
+%triggerin -- slib
+# Remove files created in guile < 1.8.7-4mdv
+ln -sfT ../../slib %{_datadir}/guile/%{mver}/slib
+
+rm -f %{_datadir}/guile/%{mver}/slibcat
+export SCHEME_LIBRARY_PATH=%{_datadir}/slib/
+
+# Build SLIB catalog
+for pre in \
+    "(use-modules (ice-9 slib))" \
+    "(load \"%{_datadir}/slib/guile.init\")"
+do
+    %{_bindir}/guile -c "$pre
+        (set! implementation-vicinity (lambda () \"%{_datadir}/guile/%{mver}/\"))
+        (require 'new-catalog)" &> /dev/null && break
+    rm -f %{_datadir}/guile/%{mver}/slibcat
+done
+:
+
+%triggerun -- slib
+if [ "$1" = 0 -o "$2" = 0 ]; then
+    rm -f %{_datadir}/guile/%{mver}/slib{,cat}
+fi
+
+
+%files
+%defattr(-,root,root)
+%doc AUTHORS ChangeLog GUILE-VERSION LICENSE README THANKS
+%{_bindir}/%{oname}
+%{_bindir}/%{oname}-tools
+%exclude %{_datadir}/%{oname}/%{mver}
+%{_mandir}/man1/guile.1.*
+%{_infodir}/*
+
+%files -n %{libname}
+%defattr(-,root,root)
+%{_libdir}/lib*.so.%{major}*
+%{_libdir}/lib%{oname}-srfi-srfi-13-14-v-3.so.3*
+%{_libdir}/lib%{oname}-srfi-srfi-4-v-3.so.3*
+%{_libdir}/lib%{oname}-srfi-srfi-1-v-3.so.3*
+%{_libdir}/lib%{oname}-srfi-srfi-60-v-2.so.2*
+
+%files -n %{develname}
+%defattr(-,root,root)
+%doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
+%multiarch %{multiarch_includedir}/lib%{oname}/scmconfig.h
+%{_bindir}/%{oname}-config
+%{_bindir}/%{oname}-snarf
+%{_datadir}/aclocal/*
+%{_includedir}/lib%{oname}*
+%{_includedir}/%{oname}*
+%{_libdir}/lib%{oname}*.so
+%exclude %{_libdir}/lib%{oname}-srfi*.so
+%{_libdir}/pkgconfig/%{oname}*.pc
+
+%files runtime
+%{_datadir}/%{oname}/%{mver}/*
+%{_libdir}/lib%{oname}-srfi*.so
+# ugly workaround to not list files twice
+%exclude %{_datadir}/%{name}/%{api}/slibcat
+%exclude %{_datadir}/%{name}/%{api}/slib
+%ghost %{_datadir}/%{oname}/%{mver}/slibcat
+%ghost %{_datadir}/%{oname}/%{mver}/slib
+
+
