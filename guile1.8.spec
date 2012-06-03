@@ -186,23 +186,30 @@ fi
 %files -n %{develname}
 %defattr(-,root,root)
 %doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
-%multiarch %{multiarch_includedir}/lib%{oname}/scmconfig.h
+%{multiarch_includedir}/lib%{oname}/scmconfig.h
 %{_bindir}/%{oname}-config
 %{_bindir}/%{oname}-snarf
 %{_datadir}/aclocal/*
 %{_includedir}/lib%{oname}*
 %{_includedir}/%{oname}*
 %{_libdir}/lib%{oname}*.so
-%exclude %{_libdir}/lib%{oname}-srfi*.so
+#%{_libdir}/lib%{oname}-srfi*.so
 %{_libdir}/pkgconfig/%{oname}*.pc
 
-%files runtime
-%{_datadir}/%{oname}/%{mver}/*
-%{_libdir}/lib%{oname}-srfi*.so
+%{_datadir}/%{oname}/%{mver}/guile-procedures.txt
+%{_datadir}/%{oname}/%{mver}/ice-9/*.scm
+%{_datadir}/%{oname}/%{mver}/ice-9/psyntax.*
+%{_datadir}/%{oname}/%{mver}/ice-9/debugging/*.scm
+%{_datadir}/%{oname}/%{mver}/ice-9/debugger/*.scm
+%{_datadir}/%{oname}/%{mver}/srfi/srfi*.scm
+%{_datadir}/%{oname}/%{mver}/scripts/*
+#%{_libdir}/lib%{oname}-srfi*.so
 # ugly workaround to not list files twice
-%exclude %{_datadir}/%{name}/%{api}/slibcat
-%exclude %{_datadir}/%{name}/%{api}/slib
-%ghost %{_datadir}/%{oname}/%{mver}/slibcat
-%ghost %{_datadir}/%{oname}/%{mver}/slib
+#%exclude %{_datadir}/%{name}/%{api}/slibcat
+%{_datadir}/%{oname}/%{mver}/slib
+%{_datadir}/%{oname}/%{mver}/slibcat
+%{_datadir}/%{oname}/%{mver}/lang/elisp/*
+%{_datadir}/%{oname}/%{mver}/oop/goops.scm
+%{_datadir}/%{oname}/%{mver}/oop/goops/*.scm
 
 
