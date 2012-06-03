@@ -10,7 +10,7 @@
 
 Name:	guile%{mver}
 Version:	1.8.8
-Release:	%mkrel 11
+Release:	%mkrel 1
 Summary:	GNU implementation of Scheme for application extensibility
 License:	LGPLv2+
 Group:	Development/Other
@@ -24,8 +24,6 @@ Patch3:		guile-1.8.7-testsuite.patch
 Patch5:		guile-1.8.7-fix-doc.patch
 Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
 Requires(post):	%{libname} = %{version}-%{release}
-Requires(post):	rpm-helper
-Requires(preun): rpm-helper
 BuildRequires:	chrpath
 BuildRequires:	libgmp-devel
 BuildRequires:	libltdl-devel
