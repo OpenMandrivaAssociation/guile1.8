@@ -1,22 +1,22 @@
-%define oname		guile
+%define oname      guile
 
-%define major		17
-%define libname		%mklibname %{oname} %{major}
-%define develname	%mklibname %{oname}1.8 -d
+%define major      17
+%define libname    %mklibname %{oname} %{major}
+%define develname  %mklibname %{oname}1.8 -d
 
 %define mver 1.8
 %define _requires_exceptions devel(libguile)
 %define _exclude_files_from_autoreq lib%{oname}-srfi-.\\+\\.so$
 
-Name:	guile%{mver}
-Version:	1.8.8
-Release:	%mkrel 1
-Summary:	GNU implementation of Scheme for application extensibility
-License:	LGPLv2+
-Group:	Development/Other
-URL:	http://www.gnu.org/software/guile/guile.html
-Source0:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
-Source1:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
+Name:	        guile%{mver}
+Version:	        1.8.8
+Release:	        %mkrel 1
+Summary:	        GNU implementation of Scheme for application extensibility
+License:        LGPLv2+
+Group:	        Development/Other
+URL:	        http://www.gnu.org/software/guile/guile.html
+Source0:	        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
+Source1:	        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
 Patch0:		guile-1.8.3-64bit-fixes.patch
 Patch1:		guile-1.6.4-amd64.patch
 Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
@@ -36,7 +36,7 @@ Obsoletes:	%{oname} < 1.8.8-7
 Conflicts:	%{oname} >= 2.0.3
 
 %package -n %{libname}
-Summary:	Libraries for Guile %{version}
+Summary:	        Libraries for Guile %{version}
 Group:		System/Libraries
 Requires:	%{name}-runtime = %{version}-%{release}
 
@@ -53,7 +53,7 @@ Requires:	libgmp-devel
 Requires:	libtool-devel
 
 %package runtime
-Summary:	Guile runtime library
+Summary:        Guile runtime library
 Group:		System/Libraries
 Conflicts:	%{name} < 1.8.8-10
 
@@ -193,9 +193,7 @@ fi
 %{_includedir}/lib%{oname}*
 %{_includedir}/%{oname}*
 %{_libdir}/lib%{oname}*.so
-#%{_libdir}/lib%{oname}-srfi*.so
 %{_libdir}/pkgconfig/%{oname}*.pc
-
 %{_datadir}/%{oname}/%{mver}/guile-procedures.txt
 %{_datadir}/%{oname}/%{mver}/ice-9/*.scm
 %{_datadir}/%{oname}/%{mver}/ice-9/psyntax.*
@@ -203,9 +201,6 @@ fi
 %{_datadir}/%{oname}/%{mver}/ice-9/debugger/*.scm
 %{_datadir}/%{oname}/%{mver}/srfi/srfi*.scm
 %{_datadir}/%{oname}/%{mver}/scripts/*
-#%{_libdir}/lib%{oname}-srfi*.so
-# ugly workaround to not list files twice
-#%exclude %{_datadir}/%{name}/%{api}/slibcat
 %{_datadir}/%{oname}/%{mver}/slib
 %{_datadir}/%{oname}/%{mver}/slibcat
 %{_datadir}/%{oname}/%{mver}/lang/elisp/*
