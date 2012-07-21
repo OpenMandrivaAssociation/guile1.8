@@ -5,8 +5,8 @@
 %define develname  %mklibname %{oname}1.8 -d
 
 %define mver 1.8
-%define _requires_exceptions devel(libguile)
-%define _exclude_files_from_autoreq lib%{oname}-srfi-.\\+\\.so$
+
+
 
 Name:	        guile%{mver}
 Version:	        1.8.8
@@ -129,17 +129,7 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/libguile*.la
 %clean
 %{__rm} -rf %{buildroot}
 
-%post
-%_install_info %{oname}-tut.info
-%_install_info %{oname}.info
-%_install_info r5rs.info
-%_install_info goops.info
 
-%preun
-%_remove_install_info %{oname}-tut.info
-%_remove_install_info %{oname}.info
-%_remove_install_info r5rs.info
-%_remove_install_info goops.info
 
 %triggerin -- slib
 # Remove files created in guile < 1.8.7-4mdv
@@ -167,7 +157,6 @@ fi
 
 
 %files
-%defattr(-,root,root)
 %doc AUTHORS ChangeLog GUILE-VERSION LICENSE README THANKS
 %{_bindir}/%{oname}
 %{_bindir}/%{oname}-tools
@@ -176,7 +165,6 @@ fi
 %{_infodir}/*
 
 %files -n %{libname}
-%defattr(-,root,root)
 %{_libdir}/lib*.so.%{major}*
 %{_libdir}/lib%{oname}-srfi-srfi-13-14-v-3.so.3*
 %{_libdir}/lib%{oname}-srfi-srfi-4-v-3.so.3*
@@ -184,7 +172,6 @@ fi
 %{_libdir}/lib%{oname}-srfi-srfi-60-v-2.so.2*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
 %{multiarch_includedir}/lib%{oname}/scmconfig.h
 %{_bindir}/%{oname}-config
