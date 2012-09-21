@@ -171,27 +171,24 @@ fi
 %{_libdir}/lib%{oname}-srfi-srfi-1-v-3.so.3*
 %{_libdir}/lib%{oname}-srfi-srfi-60-v-2.so.2*
 
+
+
 %files -n %{develname}
 %doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
-%{multiarch_includedir}/lib%{oname}/scmconfig.h
+%multiarch %{multiarch_includedir}/lib%{oname}/scmconfig.h
+
 %{_bindir}/%{oname}-config
 %{_bindir}/%{oname}-snarf
 %{_datadir}/aclocal/*
 %{_includedir}/lib%{oname}*
 %{_includedir}/%{oname}*
 %{_libdir}/lib%{oname}*.so
+%exclude %{_libdir}/lib%{oname}-srfi*.so
 %{_libdir}/pkgconfig/%{oname}*.pc
-%{_datadir}/%{oname}/%{mver}/guile-procedures.txt
-%{_datadir}/%{oname}/%{mver}/ice-9/*.scm
-%{_datadir}/%{oname}/%{mver}/ice-9/psyntax.*
-%{_datadir}/%{oname}/%{mver}/ice-9/debugging/*.scm
-%{_datadir}/%{oname}/%{mver}/ice-9/debugger/*.scm
-%{_datadir}/%{oname}/%{mver}/srfi/srfi*.scm
-%{_datadir}/%{oname}/%{mver}/scripts/*
-%{_datadir}/%{oname}/%{mver}/slib
-%{_datadir}/%{oname}/%{mver}/slibcat
-%{_datadir}/%{oname}/%{mver}/lang/elisp/*
-%{_datadir}/%{oname}/%{mver}/oop/goops.scm
-%{_datadir}/%{oname}/%{mver}/oop/goops/*.scm
+
+%files runtime
+%{_datadir}/%{oname}/%{mver}/*
+%{_libdir}/lib%{oname}-srfi*.so
+
 
 
