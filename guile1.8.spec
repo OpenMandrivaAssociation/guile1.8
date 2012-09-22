@@ -24,6 +24,7 @@ Patch3:		guile-1.8.7-testsuite.patch
 Patch5:		guile-1.8.7-fix-doc.patch
 Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
 Requires(post):	%{libname} = %{version}-%{release}
+Requires:	readline-devel
 BuildRequires:	chrpath
 BuildRequires:	libgmp-devel
 BuildRequires:	libltdl-devel
