@@ -29,7 +29,7 @@ BuildRequires:	chrpath
 BuildRequires:	libgmp-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libncurses-devel
-BuildRequires:	libreadline-devel
+BuildRequires:	readline-devel
 BuildRequires:	gettext-devel
 # for srfi-19.test
 BuildRequires:	timezone
