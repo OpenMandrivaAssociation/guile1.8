@@ -10,7 +10,7 @@
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        %mkrel 7
+Release:	        2
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
@@ -24,12 +24,11 @@ Patch3:		guile-1.8.7-testsuite.patch
 Patch5:		guile-1.8.7-fix-doc.patch
 Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
 Requires(post):	%{libname} = %{version}-%{release}
-Requires:	readline-devel
 BuildRequires:	chrpath
-BuildRequires:	libgmp-devel
+BuildRequires:	gmp-devel
 BuildRequires:	libltdl-devel
-BuildRequires:	libncurses-devel
-BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(ncurses)
+BuildRequires:	libreadline-devel
 BuildRequires:	gettext-devel
 # for srfi-19.test
 BuildRequires:	timezone
@@ -39,7 +38,6 @@ Conflicts:	%{oname} >= 2.0.3
 %package -n %{libname}
 Summary:	        Libraries for Guile %{version}
 Group:		System/Libraries
-Requires:	%{name}-runtime = %{version}-%{release}
 
 %package -n %{develname}
 Summary:	Development headers and static library for libguile
@@ -50,13 +48,9 @@ Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{_lib}%{oname}-devel < 1.8.8-7
 Obsoletes:	%{_lib}%{oname}17-devel
 Conflicts:	%{_lib}%{oname}-devel >= 2.0.3
-Requires:	libgmp-devel
+Requires:	gmp-devel
 Requires:	libtool-devel
 
-%package runtime
-Summary:        Guile runtime library
-Group:		System/Libraries
-Conflicts:	%{name} < 1.8.8-10
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
@@ -78,9 +72,7 @@ for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 `guile-config' utilities, and static `libguile' library for Guile, the
 GNU Ubiquitous Intelligent Language for Extension
 
-%description runtime
-This package contains Scheme runtime for GUILE, including ice-9
-Scheme module.
+
 
 %prep
 %setup -q -n %{oname}-%{version}
@@ -113,7 +105,6 @@ autoreconf -vfi
 %endif
 
 %install
-%{__rm} -rf %{buildroot}
 %makeinstall_std
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{oname}/site
@@ -126,10 +117,6 @@ autoreconf -vfi
 touch %{buildroot}%{_datadir}/%{oname}/%{mver}/slib %{buildroot}%{_datadir}/%{oname}/%{mver}/slibcat
 
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/libguile*.la
-
-%clean
-%{__rm} -rf %{buildroot}
-
 
 
 %triggerin -- slib
@@ -172,24 +159,34 @@ fi
 %{_libdir}/lib%{oname}-srfi-srfi-1-v-3.so.3*
 %{_libdir}/lib%{oname}-srfi-srfi-60-v-2.so.2*
 
-
-
 %files -n %{develname}
 %doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
-%multiarch %{multiarch_includedir}/lib%{oname}/scmconfig.h
-
+%{multiarch_includedir}/lib%{oname}/scmconfig.h
 %{_bindir}/%{oname}-config
 %{_bindir}/%{oname}-snarf
 %{_datadir}/aclocal/*
 %{_includedir}/lib%{oname}*
 %{_includedir}/%{oname}*
 %{_libdir}/lib%{oname}*.so
-%exclude %{_libdir}/lib%{oname}-srfi*.so
 %{_libdir}/pkgconfig/%{oname}*.pc
+%{_datadir}/%{oname}/%{mver}/guile-procedures.txt
+%{_datadir}/%{oname}/%{mver}/ice-9/*.scm
+%{_datadir}/%{oname}/%{mver}/ice-9/psyntax.*
+%{_datadir}/%{oname}/%{mver}/ice-9/debugging/*.scm
+%{_datadir}/%{oname}/%{mver}/ice-9/debugger/*.scm
+%{_datadir}/%{oname}/%{mver}/srfi/srfi*.scm
+%{_datadir}/%{oname}/%{mver}/scripts/*
+%{_datadir}/%{oname}/%{mver}/slib
+%{_datadir}/%{oname}/%{mver}/slibcat
+%{_datadir}/%{oname}/%{mver}/lang/elisp/*
+%{_datadir}/%{oname}/%{mver}/oop/goops.scm
+%{_datadir}/%{oname}/%{mver}/oop/goops/*.scm
 
-%files runtime
-%{_datadir}/%{oname}/%{mver}/*
-%{_libdir}/lib%{oname}-srfi*.so
 
 
+
+%changelog
+* Sun Jul 22 2012 Thomas Spuhler <tspuhler@mandriva.org> 1.8.8-1mdv2012.0
++ Revision: 810562
+- imported package guile1.8
 
