@@ -1,0 +1,11 @@
+--- configure.in.orig	2013-07-26 14:19:25.777518503 +0100
++++ configure.in	2013-07-26 14:19:44.464519259 +0100
+@@ -41,7 +41,7 @@
+ AC_CONFIG_MACRO_DIR([m4])
+ AC_CONFIG_SRCDIR(GUILE-VERSION)
+ 
+-AM_INIT_AUTOMAKE([gnu no-define check-news -Wall -Wno-override])
++AM_INIT_AUTOMAKE([gnu no-define check-news -Wall -Wno-override serial-tests color-tests])
+ 
+ AC_COPYRIGHT(GUILE_CONFIGURE_COPYRIGHT)
+ AC_CONFIG_SRCDIR([GUILE-VERSION])

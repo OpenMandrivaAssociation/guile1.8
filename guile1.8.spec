@@ -23,12 +23,13 @@ Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-1.8.7-testsuite.patch
 Patch5:		guile-1.8.7-fix-doc.patch
 Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
+Patch7:		guile-1.8.8-amtests.patch
 Requires(post):	%{libname} = %{version}-%{release}
 BuildRequires:	chrpath
 BuildRequires:	gmp-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	pkgconfig(ncurses)
-BuildRequires:	libreadline-devel
+BuildRequires:	readline-devel
 BuildRequires:	gettext-devel
 # for srfi-19.test
 BuildRequires:	timezone
@@ -83,6 +84,7 @@ GNU Ubiquitous Intelligent Language for Extension
 
 %patch5 -p1 -b .doc
 %patch6 -p1 -b .robust
+%patch7 -p0 -b .amtests
 
 %build
 autoreconf -vfi
@@ -92,6 +94,8 @@ autoreconf -vfi
     --enable-dynamic-linking \
     --with-threads \
     --disable-static
+
+chmod +x scripts/snarf-check-and-output-texi
 
 %make
 
