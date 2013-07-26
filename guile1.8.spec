@@ -6,7 +6,7 @@
 
 %define mver 1.8
 
-
+%define __noautoreq '/usr/bin/guile'
 
 Name:	        guile%{mver}
 Version:	        1.8.8
@@ -44,6 +44,7 @@ Group:		System/Libraries
 Summary:	Development headers and static library for libguile
 Group:	Development/C
 Requires:	%{libname} = %{version}-%{release}
+Requires:	guile%{mver} = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{_lib}%{oname}-devel < 1.8.8-7
