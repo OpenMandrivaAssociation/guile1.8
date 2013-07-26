@@ -10,7 +10,7 @@
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        8
+Release:	        9
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
@@ -44,7 +44,6 @@ Group:		System/Libraries
 Summary:	Development headers and static library for libguile
 Group:	Development/C
 Requires:	%{libname} = %{version}-%{release}
-Requires:	guile%{mver} = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{_lib}%{oname}-devel < 1.8.8-7
