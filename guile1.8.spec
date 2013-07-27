@@ -6,11 +6,11 @@
 
 %define mver 1.8
 
-%define __noautoreq '/usr/bin/guile'
+%define __noautoreq '/usr/bin/guile|devel\\(libguile(.*)\\)|lib%{oname}-srfi-.+\\.so$'
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        10
+Release:	        11
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
@@ -24,7 +24,8 @@ Patch3:		guile-1.8.7-testsuite.patch
 Patch5:		guile-1.8.7-fix-doc.patch
 Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
 Patch7:		guile-1.8.8-amtests.patch
-Requires(post):	%{libname} = %{version}-%{release}
+Requires(pre,post):	%{libname} = %{version}-%{release}
+Requires(pre,post):	%{name}-runtime = %{version}-%{release}
 BuildRequires:	chrpath
 BuildRequires:	gmp-devel
 BuildRequires:	libltdl-devel
@@ -45,6 +46,7 @@ Requires:       %{name}-runtime = %{version}-%{release}
 Summary:	Development headers and static library for libguile
 Group:	Development/C
 Requires:	%{libname} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{_lib}%{oname}-devel < 1.8.8-7
@@ -197,7 +199,6 @@ fi
 %{_datadir}/%{oname}/%{mver}/lang/elisp/*
 %{_datadir}/%{oname}/%{mver}/oop/goops.scm
 %{_datadir}/%{oname}/%{mver}/oop/goops/*.scm
-
 
 
 %changelog
