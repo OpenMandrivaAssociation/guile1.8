@@ -10,7 +10,7 @@
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        9
+Release:	        10
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
@@ -39,6 +39,7 @@ Conflicts:	%{oname} >= 2.0.3
 %package -n %{libname}
 Summary:	        Libraries for Guile %{version}
 Group:		System/Libraries
+Requires:       %{name}-runtime = %{version}-%{release}
 
 %package -n %{develname}
 Summary:	Development headers and static library for libguile
@@ -52,6 +53,10 @@ Conflicts:	%{_lib}%{oname}-devel >= 2.0.3
 Requires:	gmp-devel
 Requires:	libtool-devel
 
+%package runtime
+Summary:	Guile runtime library
+Group:		System/Libraries
+Conflicts:      %{name} < 1.8.8-10
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
@@ -73,6 +78,9 @@ for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 `guile-config' utilities, and static `libguile' library for Guile, the
 GNU Ubiquitous Intelligent Language for Extension
 
+%description runtime
+This package contains Scheme runtime for GUILE, including ice-9
+Scheme module.
 
 
 %prep
@@ -172,7 +180,11 @@ fi
 %{_includedir}/lib%{oname}*
 %{_includedir}/%{oname}*
 %{_libdir}/lib%{oname}*.so
+%exclude %{_libdir}/lib%{oname}-srfi*.so
 %{_libdir}/pkgconfig/%{oname}*.pc
+
+%files runtime
+%{_libdir}/lib%{oname}-srfi*.so
 %{_datadir}/%{oname}/%{mver}/guile-procedures.txt
 %{_datadir}/%{oname}/%{mver}/ice-9/*.scm
 %{_datadir}/%{oname}/%{mver}/ice-9/psyntax.*
@@ -185,7 +197,6 @@ fi
 %{_datadir}/%{oname}/%{mver}/lang/elisp/*
 %{_datadir}/%{oname}/%{mver}/oop/goops.scm
 %{_datadir}/%{oname}/%{mver}/oop/goops/*.scm
-
 
 
 
