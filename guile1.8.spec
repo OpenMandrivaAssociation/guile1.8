@@ -6,11 +6,12 @@
 
 %define mver 1.8
 
-%define __noautoreq '/usr/bin/guile|devel\\(libguile(.*)\\)|lib%{oname}-srfi-.+\\.so$'
+%define __noautoreq '/usr/bin/guile|devel\\(libguile(.*)\\)'
+%define __noautoreqfiles 'libguile-srfi-srfi.*so$'
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        11
+Release:	        12
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
@@ -199,7 +200,6 @@ fi
 %{_datadir}/%{oname}/%{mver}/lang/elisp/*
 %{_datadir}/%{oname}/%{mver}/oop/goops.scm
 %{_datadir}/%{oname}/%{mver}/oop/goops/*.scm
-
 
 %changelog
 * Sun Jul 22 2012 Thomas Spuhler <tspuhler@mandriva.org> 1.8.8-1mdv2012.0
