@@ -29,6 +29,7 @@ Requires(pre,post):	%{libname} = %{version}-%{release}
 Requires(pre,post):	%{name}-runtime = %{version}-%{release}
 BuildRequires:	chrpath
 BuildRequires:	gmp-devel
+BuildRequires:	texinfo
 BuildRequires:	libltdl-devel
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	readline-devel
