@@ -25,6 +25,7 @@ Patch3:		guile-1.8.7-testsuite.patch
 Patch5:		guile-1.8.7-fix-doc.patch
 Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
 Patch7:		guile-1.8.8-amtests.patch
+Patch8:		guile-1.8.8-texinfo5.patch
 Requires(pre,post):	%{libname} = %{version}-%{release}
 Requires(pre,post):	%{name}-runtime = %{version}-%{release}
 BuildRequires:	chrpath
@@ -97,15 +98,18 @@ Scheme module.
 %patch5 -p1 -b .doc
 %patch6 -p1 -b .robust
 %patch7 -p0 -b .amtests
+%patch8 -p1
 
 %build
+# tests fail when using clang
+export CC=gcc
+export CXX=g++
 autoreconf -vfi
-%configure2_5x \
+%configure \
     --disable-error-on-warning \
     --disable-rpath \
     --enable-dynamic-linking \
-    --with-threads \
-    --disable-static
+    --with-threads
 
 chmod +x scripts/snarf-check-and-output-texi
 
