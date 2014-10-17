@@ -26,6 +26,8 @@ Patch5:		guile-1.8.7-fix-doc.patch
 Patch6:		guile-1.8.8-make-sockets.test-more-robust.patch
 Patch7:		guile-1.8.8-amtests.patch
 Patch8:		guile-1.8.8-texinfo5.patch
+Patch9:		guile-1.8.8-mark-Unused-modules-are-removed-gc-test-as-unresolved.patch
+Patch10:	guile-1.8.8-drop-broken-test-hack.patch
 Requires(pre,post):	%{libname} = %{version}-%{release}
 Requires(pre,post):	%{name}-runtime = %{version}-%{release}
 BuildRequires:	chrpath
@@ -99,6 +101,8 @@ Scheme module.
 %patch6 -p1 -b .robust
 %patch7 -p0 -b .amtests
 %patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %build
 # tests fail when using clang
@@ -116,6 +120,10 @@ chmod +x scripts/snarf-check-and-output-texi
 %make
 
 %check
+# There was a hack, now broken to make it generated before running the tests
+# Patch10 drops the hack so we need to build the file
+make -C libguile stack-limit-calibration.scm
+
 %ifarch ia64
 # FAIL: r4rs.test: (6 9): (#<procedure leaf-eq? (x y)> (a (b (c))) ((a) b c))
 %{__make} check -k || :
