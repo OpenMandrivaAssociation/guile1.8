@@ -18,6 +18,7 @@ Group:	        Development/Other
 URL:	        http://www.gnu.org/software/guile/guile.html
 Source0:	        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Source1:	        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
+Source100:	%{name}.rpmlintrc
 Patch0:		guile-1.8.3-64bit-fixes.patch
 Patch1:		guile-1.6.4-amd64.patch
 Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
