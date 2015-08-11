@@ -10,3 +10,17 @@ diff -up guile-1.8.7/test-suite/tests/popen.test.testsuite guile-1.8.7/test-suit
        (close-port (cdr c2p))   ;; write side
        (with-epipe
         (lambda ()
+diff -up guile-1.8.8/test-suite/tests/srfi-14.test.srfi14test guile-1.8.8/test-suite/tests/srfi-14.test
+--- guile-1.8.8/test-suite/tests/srfi-14.test.srfi14test	2010-12-13 18:24:40.000000000 +0100
++++ guile-1.8.8/test-suite/tests/srfi-14.test	2015-07-15 17:30:44.975307452 +0200
+@@ -281,7 +281,9 @@
+   (pass-if "char-set:lower-case (size)"
+      (if (not %latin1)
+ 	 (throw 'unresolved)
+-	 (= (char-set-size char-set:lower-case) (+ 26 33))))
++	 (let ((size (char-set-size char-set:lower-case)))
++	   (or (= size (+ 26 33))
++	       (= size (+ 26 35))))))
+ 
+   (pass-if "char-set:upper-case (size)"
+      (if (not %latin1)
