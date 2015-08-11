@@ -11,7 +11,7 @@
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        19
+Release:	        20
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
@@ -28,6 +28,8 @@ Patch7:		guile-1.8.8-amtests.patch
 Patch8:		guile-1.8.8-texinfo5.patch
 Patch9:		guile-1.8.8-mark-Unused-modules-are-removed-gc-test-as-unresolved.patch
 Patch10:	guile-1.8.8-drop-broken-test-hack.patch
+Patch11:	guile-1.8.8-gcc46.patch
+Patch12:	0010-Fix-test-suite-failure-caused-by-formfeed-difference.patch
 Requires(pre,post):	%{libname} = %{version}-%{release}
 Requires(pre,post):	%{name}-runtime = %{version}-%{release}
 BuildRequires:	chrpath
@@ -103,6 +105,8 @@ Scheme module.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
+%patch12 -p1
 
 %build
 # tests fail when using clang
