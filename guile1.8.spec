@@ -131,7 +131,7 @@ chmod +x scripts/snarf-check-and-output-texi
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{oname}/site
 
-%{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
+#{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
 
 %{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{oname},%{_libdir}/*.so.*.*.*}
 
