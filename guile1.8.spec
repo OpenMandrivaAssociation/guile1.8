@@ -111,8 +111,8 @@ Scheme module.
 
 %build
 # tests fail when using clang
-export CC=gcc
-export CXX=g++
+#export CC=gcc
+#export CXX=g++
 autoreconf -vfi
 %configure \
     --disable-error-on-warning \
