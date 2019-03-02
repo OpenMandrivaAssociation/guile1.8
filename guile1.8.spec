@@ -124,18 +124,7 @@ chmod +x scripts/snarf-check-and-output-texi
 
 %make_build
 
-%check
-# There was a hack, now broken to make it generated before running the tests
-# Patch10 drops the hack so we need to build the file
-make -C libguile stack-limit-calibration.scm
-
-%ifarch ia64
-# FAIL: r4rs.test: (6 9): (#<procedure leaf-eq? (x y)> (a (b (c))) ((a) b c))
-%{__make} check -k || :
-%else
-# all tests must pass
-%{__make} check
-%endif
+#No check.
 
 %install
 %make_install
