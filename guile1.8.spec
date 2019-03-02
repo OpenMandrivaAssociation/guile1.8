@@ -122,7 +122,7 @@ autoreconf -vfi
 
 chmod +x scripts/snarf-check-and-output-texi
 
-%make
+%make_build
 
 %check
 # There was a hack, now broken to make it generated before running the tests
@@ -138,11 +138,11 @@ make -C libguile stack-limit-calibration.scm
 %endif
 
 %install
-%makeinstall_std
+%make_install
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{oname}/site
 
-%multiarch_includes %{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
+#multiarch_includes %{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
 
 %{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{oname},%{_libdir}/*.so.*.*.*}
 
