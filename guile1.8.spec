@@ -11,7 +11,7 @@
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        20
+Release:	        21
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
