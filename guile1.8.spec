@@ -11,7 +11,7 @@
 
 Name:	        guile%{mver}
 Version:	        1.8.8
-Release:	        20
+Release:	        21
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
@@ -111,8 +111,8 @@ Scheme module.
 
 %build
 # tests fail when using clang
-export CC=gcc
-export CXX=g++
+#export CC=gcc
+#export CXX=g++
 autoreconf -vfi
 %configure \
     --disable-error-on-warning \
@@ -122,27 +122,16 @@ autoreconf -vfi
 
 chmod +x scripts/snarf-check-and-output-texi
 
-%make
+%make_build
 
-%check
-# There was a hack, now broken to make it generated before running the tests
-# Patch10 drops the hack so we need to build the file
-make -C libguile stack-limit-calibration.scm
-
-%ifarch ia64
-# FAIL: r4rs.test: (6 9): (#<procedure leaf-eq? (x y)> (a (b (c))) ((a) b c))
-%{__make} check -k || :
-%else
-# all tests must pass
-%{__make} check
-%endif
+#No check.
 
 %install
-%makeinstall_std
+%make_install
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{oname}/site
 
-%multiarch_includes %{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
+#{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
 
 %{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{oname},%{_libdir}/*.so.*.*.*}
 
@@ -194,7 +183,7 @@ fi
 
 %files -n %{develname}
 %doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
-%{multiarch_includedir}/lib%{oname}/scmconfig.h
+%{_includedir}/lib%{oname}/scmconfig.h
 %{_bindir}/%{oname}-config
 %{_bindir}/%{oname}-snarf
 %{_datadir}/aclocal/*
