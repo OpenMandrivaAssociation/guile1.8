@@ -131,7 +131,7 @@ chmod +x scripts/snarf-check-and-output-texi
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{oname}/site
 
-#multiarch_includes %{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
+%{buildroot}%{_includedir}/lib%{oname}/scmconfig.h
 
 %{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{oname},%{_libdir}/*.so.*.*.*}
 
@@ -183,7 +183,7 @@ fi
 
 %files -n %{develname}
 %doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
-%{multiarch_includedir}/lib%{oname}/scmconfig.h
+%{_includedir}/lib%{oname}/scmconfig.h
 %{_bindir}/%{oname}-config
 %{_bindir}/%{oname}-snarf
 %{_datadir}/aclocal/*
