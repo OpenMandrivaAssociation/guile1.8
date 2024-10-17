@@ -15,7 +15,7 @@ Release:	        21
 Summary:	        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:	        Development/Other
-URL:	        http://www.gnu.org/software/guile/guile.html
+URL:	        https://www.gnu.org/software/guile/guile.html
 Source0:	        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Source1:	        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
 Source100:	%{name}.rpmlintrc
