@@ -33,6 +33,11 @@ Patch11:	guile-1.8.8-gcc46.patch
 Patch12:	0010-Fix-test-suite-failure-caused-by-formfeed-difference.patch
 Requires(pre,post):	%{libname} = %{version}-%{release}
 Requires(pre,post):	%{name}-runtime = %{version}-%{release}
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	chrpath
 BuildRequires:	gmp-devel
 BuildRequires:	texinfo
